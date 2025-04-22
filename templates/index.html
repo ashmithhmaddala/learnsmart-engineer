@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>📚 Personalized Learning Recommender</title>
+  <title>Personalized Learning Recommender</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -93,7 +93,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>📚 Personalized Learning Recommender</h2>
+    <h2>Personalized Learning Recommender</h2>
     <form action="/show" method="post">
       <label for="user_id">Enter User ID:</label>
       <input type="number" name="user_id" id="user_id" required>
@@ -101,7 +101,7 @@
     </form>
 
     {% if sample_ids %}
-      <p>🔢 Sample User IDs you can try:</p>
+      <p>Sample User IDs you can try:</p>
       <div>
         {% for uid in sample_ids %}
           <a href="#" onclick="document.getElementById('user_id').value='{{ uid }}'">{{ uid }}</a>{% if not loop.last %}, {% endif %}
@@ -129,7 +129,7 @@
       </div>
 
       <div class="section">
-        <h3>📊 Skill Performance Chart</h3>
+        <h3>Skill Performance Chart</h3>
         <img src="/static/chart.png" alt="Skill Performance">
       </div>
     {% endif %}
