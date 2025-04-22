@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>📚 Personalized Learning Recommender</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h2 {
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      width: 160px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h3 {
+      margin-bottom: 10px;
+      color: #111827;
+      font-size: 18px;
+    }
+
+    ul {
+      background: #f3f4f6;
+      padding: 15px;
+      border-radius: 6px;
+      list-style-type: disc;
+      padding-left: 25px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+    }
+
+    a {
+      color: #3b82f6;
+      text-decoration: none;
+      margin-right: 8px;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📚 Personalized Learning Recommender</h2>
+    <form action="/show" method="post">
+      <label for="user_id">Enter User ID:</label>
+      <input type="number" name="user_id" id="user_id" required>
+      <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if sample_ids %}
+      <p>🔢 Sample User IDs you can try:</p>
+      <div>
+        {% for uid in sample_ids %}
+          <a href="#" onclick="document.getElementById('user_id').value='{{ uid }}'">{{ uid }}</a>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if skills %}
+      <div class="section">
+        <h3>🧠 Weak Skills (Accuracy &lt; 70%)</h3>
+        <ul>
+          {% for skill in skills %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>🤖 AI Suggested Skills (Collaborative Filtering)</h3>
+        <ul>
+          {% for skill in ai_recs %}
+            <li>{{ skill }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>📊 Skill Performance Chart</h3>
+        <img src="/static/chart.png" alt="Skill Performance">
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
