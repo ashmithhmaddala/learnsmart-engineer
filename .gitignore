@@ -1,0 +1,5 @@
+data/skill_builder.csv
+__pycache__/
+*.pyc
+*.png
+logs/
