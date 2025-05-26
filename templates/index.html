@@ -1,157 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personalized Learning Recommender</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 20px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LearnSmart Navigation</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f4f5f7;
+      }
 
-    h2 {
-      color: #333;
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+      .progress-nav {
+        width: 100%;
+        padding: 2em;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
 
-    .container {
-      max-width: 900px;
-      background: white;
-      border-radius: 10px;
-      padding: 40px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin: 0 auto;
-    }
+      .progress-nav__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        padding: 0 1.5em;
+      }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
+      .progress-nav__logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        min-width: 250px;
+      }
 
-    input[type="number"] {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 200px;
-    }
+      .progress-nav__logo img {
+        height: 150px;
+        max-height: 220px;
+        width: auto;
+        object-fit: contain;
+        padding-right: 0.75em;
+      }
 
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+      .progress-nav__wrapper {
+        background-color: #c9cce0;
+        border-radius: 50em;
+        padding: 0.5em;
+        display: flex;
+      }
 
-    button:hover {
-      background-color: #45a049;
-    }
+      .progress-nav__list {
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50em;
+      }
 
-    .section {
-      margin-top: 40px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      border-radius: 10px;
-    }
+      .progress-nav__indicator {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50em;
+        width: 2.5em;
+        height: 2.5em;
+        left: -2.5em;
+        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 2;
+      }
 
-    .section h3 {
-      font-size: 1.6rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
+      .progress-nav__btn {
+        z-index: 3;
+        cursor: pointer;
+        padding: 0 1em;
+        height: 2.5em;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-      font-size: 1.1rem;
-      color: #555;
-    }
+      .progress-nav__btn.is--before,
+      .progress-nav__btn.is--after {
+        width: 2.5em;
+        padding: 0;
+        position: absolute;
+        top: 0;
+      }
 
-    ul li {
-      margin-bottom: 12px;
-    }
+      .progress-nav__btn.is--before {
+        right: 100%;
+      }
 
-    .section img {
-      margin-top: 20px;
-      max-width: 100%;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
+      .progress-nav__btn.is--after {
+        left: 100%;
+      }
 
-    .sample-ids {
-      display: flex;
-      gap: 12px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
+      .progress-nav__btn-text {
+        font-size: 1.125em;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(0);
+        height: 100%;
+        white-space: nowrap;
+      }
 
-    .sample-ids a {
-      padding: 8px 16px;
-      background-color: #f0f4f8;
-      border-radius: 25px;
-      text-decoration: none;
-      color: #4CAF50;
-      font-weight: 500;
-      border: 1px solid #4CAF50;
-      transition: background-color 0.3s ease;
-    }
+      .progress-nav__btn-text.is--duplicate {
+        position: absolute;
+        top: 100%;
+      }
 
-    .sample-ids a:hover {
-      background-color: #4CAF50;
-      color: white;
-    }
+      .progress-nav__btn:hover .progress-nav__btn-text,
+      .progress-nav__contact-btn:hover .progress-nav__btn-text {
+        transform: translateY(-100%);
+      }
 
-  </style>
-</head>
-<body>
+      .progress-nav__contact-btn {
+        background-color: #2d336b;
+        color: transparent;
+        border-radius: 50em;
+        height: 3.5em;
+        width: 3.5em;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: width 0.4s ease, color 0.3s ease;
+      }
 
-  <div class="container">
-    <h2>Personalized Learning Recommender</h2>
+      .progress-nav__contact-btn:hover {
+        width: 12em;
+        color: #fff;
+      }
 
-    <div class="form-container">
-      <form method="POST" action="/show">
-        <input type="number" name="user_id" id="user_id" placeholder="Enter User ID" required>
-        <button type="submit">Get Recommendations</button>
-      </form>
+      .progress-nav__contact-btn .progress-nav__btn-text {
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .progress-nav__contact-btn:hover .progress-nav__btn-text {
+        opacity: 1;
+      }
+
+      .section-resource {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section-resource.is--flipped {
+        background-color: #7886c7;
+        color: #fff;
+      }
+
+      .section-resource__h2 {
+        font-size: 5em;
+        font-weight: 500;
+      }
+
+      .loading-container {
+        z-index: 500;
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .loading-screen {
+        pointer-events: auto;
+        color: #fff;
+        background-color: #000;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .loading-words {
+        grid-column-gap: 2em;
+        grid-row-gap: 2em;
+        align-items: center;
+        display: flex;
+      }
+
+      .loading-words__dot {
+        background-color: #fff;
+        border-radius: 50%;
+        width: 0.75em;
+        height: 0.75em;
+      }
+
+      .loading-words__word {
+        font-size: 4.5em;
+        font-weight: 500;
+        line-height: 1;
+        margin: 0;
+      }
+
+      @media screen and (max-width: 767px) {
+        .loading-words {
+          font-size: 2.75vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div data-loading-container class="loading-container">
+      <div class="loading-screen">
+        <div
+          data-loading-words="Hello, Bonjour, स्वागत हे, Ciao, Olá, おい, Hallå, Guten tag, Hallo"
+          class="loading-words"
+        >
+          <div class="loading-words__dot"></div>
+          <p data-loading-words-target class="loading-words__word">Hello</p>
+        </div>
+      </div>
     </div>
 
-    {% if sample_ids %}
-    <div class="sample-ids">
-      <p>Try these sample User IDs:</p>
-      {% for uid in sample_ids %}
-        <a href="#" onclick="document.getElementById('user_id').value='{{ uid }}'">{{ uid }}</a>
-      {% endfor %}
-    </div>
-    {% endif %}
+    <nav class="progress-nav">
+      <div class="progress-nav__inner">
+        <a href="/" class="progress-nav__logo">
+          <img
+            src="{{ url_for('static', filename='images/LearnSmart-Engineer.png') }}"
+            alt="LearnSmart Logo"
+          />
+        </a>
 
-    <div class="section">
-      <h3>AI Suggested Skills</h3>
-      <ul>
-        {% for skill in ai_recs %}
-          <li>{{ skill }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+        <div class="progress-nav__wrapper">
+          <div data-progress-nav-list class="progress-nav__list">
+            <div class="progress-nav__indicator"></div>
+            <div
+              data-progress-nav-target="#top"
+              class="progress-nav__btn is--before"
+            ></div>
+            <a
+              data-progress-nav-target="#introduction"
+              href="#introduction"
+              class="progress-nav__btn"
+            >
+              <span class="progress-nav__btn-text">1. Intro</span>
+              <span class="progress-nav__btn-text is--duplicate">1. Intro</span>
+            </a>
+            <a
+              data-progress-nav-target="#concept"
+              href="#concept"
+              class="progress-nav__btn"
+            >
+              <span class="progress-nav__btn-text">2. Concept</span>
+              <span class="progress-nav__btn-text is--duplicate"
+                >2. Concept</span
+              >
+            </a>
+            <a
+              data-progress-nav-target="#product"
+              href="#product"
+              class="progress-nav__btn"
+            >
+              <span class="progress-nav__btn-text">3. Product</span>
+              <span class="progress-nav__btn-text is--duplicate"
+                >3. Product</span
+              >
+            </a>
+            <a
+              data-progress-nav-target="#result"
+              href="#result"
+              class="progress-nav__btn"
+            >
+              <span class="progress-nav__btn-text">4. Result</span>
+              <span class="progress-nav__btn-text is--duplicate"
+                >4. Result</span
+              >
+            </a>
+            <div
+              data-progress-nav-target="#bottom"
+              class="progress-nav__btn is--after"
+            ></div>
+          </div>
+        </div>
 
-    <div class="section">
-      <h3>Skill Performance Chart</h3>
-      <img src="/static/chart.png" alt="Skill Performance">
-    </div>
+        <a href="#bottom" class="progress-nav__contact-btn">
+          <span class="progress-nav__btn-text">Get in touch</span>
+          <span class="progress-nav__btn-text is--duplicate">Get in touch</span>
+        </a>
+      </div>
+    </nav>
 
-  </div>
+    <section id="top" data-progress-nav-anchor class="section-resource">
+      <h2 class="section-resource__h2">Welcome to LearnSmart</h2>
+    </section>
+    <section
+      id="introduction"
+      data-progress-nav-anchor
+      class="section-resource is--flipped"
+    >
+      <h2 class="section-resource__h2">Introduction</h2>
+    </section>
+    <section id="concept" data-progress-nav-anchor class="section-resource">
+      <h2 class="section-resource__h2">Concept</h2>
+    </section>
+    <section
+      id="product"
+      data-progress-nav-anchor
+      class="section-resource is--flipped"
+    >
+      <h2 class="section-resource__h2">Product</h2>
+    </section>
+    <section id="result" data-progress-nav-anchor class="section-resource">
+      <h2 class="section-resource__h2">Result</h2>
+    </section>
+    <section
+      id="bottom"
+      data-progress-nav-anchor
+      class="section-resource is--flipped"
+    >
+      <h2 class="section-resource__h2">Bottom</h2>
+    </section>
 
-</body>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      function initProgressNavigation() {
+        const navProgress = document.querySelector("[data-progress-nav-list]");
+        const indicator = navProgress.querySelector(".progress-nav__indicator");
+
+        function updateIndicator(activeLink) {
+          const parentRect = navProgress.getBoundingClientRect();
+          const linkRect = activeLink.getBoundingClientRect();
+          const left = linkRect.left - parentRect.left;
+          indicator.style.left = `${left}px`;
+          indicator.style.width = `${linkRect.width}px`;
+        }
+
+        const anchors = gsap.utils.toArray("[data-progress-nav-anchor]");
+        anchors.forEach((anchor) => {
+          const id = anchor.id;
+          ScrollTrigger.create({
+            trigger: anchor,
+            start: "0% 50%",
+            end: "100% 50%",
+            onEnter: () => {
+              const active = navProgress.querySelector(
+                `[data-progress-nav-target="#${id}"]`
+              );
+              if (active) {
+                navProgress
+                  .querySelectorAll("[data-progress-nav-target]")
+                  .forEach((btn) => btn.classList.remove("is--active"));
+                active.classList.add("is--active");
+                updateIndicator(active);
+              }
+            },
+            onEnterBack: (self) => self.trigger.onEnter(),
+          });
+        });
+      }
+
+      function initWelcomingWordsLoader() {
+        const loadingContainer = document.querySelector(
+          "[data-loading-container]"
+        );
+        if (!loadingContainer) return;
+
+        const loadingWords = loadingContainer.querySelector(
+          "[data-loading-words]"
+        );
+        const wordsTarget = loadingWords.querySelector(
+          "[data-loading-words-target]"
+        );
+        const words = loadingWords
+          .getAttribute("data-loading-words")
+          .split(",")
+          .map((w) => w.trim());
+
+        const tl = gsap.timeline();
+        tl.from(loadingWords, {
+          opacity: 0,
+          yPercent: 50,
+          duration: 1.2,
+          ease: "Expo.easeInOut",
+        });
+
+        words.forEach((word) => {
+          tl.call(
+            () => {
+              wordsTarget.textContent = word;
+            },
+            null,
+            "+=0.15"
+          );
+        });
+
+        tl.to(loadingWords, {
+          opacity: 0,
+          yPercent: -75,
+          duration: 0.8,
+          ease: "Expo.easeIn",
+        });
+
+        tl.to(
+          loadingContainer,
+          {
+            autoAlpha: 0,
+            duration: 0.6,
+            ease: "Power1.easeInOut",
+          },
+          "-=0.2"
+        );
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initWelcomingWordsLoader();
+        initProgressNavigation();
+      });
+    </script>
+  </body>
 </html>

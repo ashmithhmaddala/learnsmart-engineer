@@ -1,22 +1,29 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
+import os
+import uuid
 
-# Load the dataset
-df = pd.read_csv("data/skill_builder.csv")
+def create_skill_plot(df):
+    # Calculate average scores across all students
+    subjects = ['math score', 'reading score', 'writing score']
+    averages = df[subjects].mean()
 
-# Pick a user_id (you can also take input)
-user_id = 61394
+    # Plot settings
+    plt.figure(figsize=(8, 5))
+    bars = plt.bar(subjects, averages, edgecolor='black')
+    plt.title('Average Performance by Subject')
+    plt.ylabel('Score (out of 100)')
+    plt.ylim(0, 100)
 
-# Compute skill-wise accuracy
-user_df = df[df['user_id'] == user_id]
-skill_perf = user_df.groupby('skill')['correct'].mean().reset_index()
-skill_perf.columns = ['skill', 'accuracy']
-skill_perf = skill_perf.sort_values('accuracy')
+    # Label bars with exact values
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2.0, yval + 2, f'{yval:.1f}', ha='center')
 
-# Plotting
-plt.figure(figsize=(10, 8))
-plt.barh(skill_perf['skill'], skill_perf['accuracy'], color='skyblue')
-plt.xlabel("Accuracy")
-plt.title(f"Skill Performance for User {user_id}")
-plt.tight_layout()
-plt.show()
+    # Save to static folder
+    plot_id = str(uuid.uuid4())[:8]
+    plot_path = f'static/plot_{plot_id}.png'
+    plt.savefig(plot_path, bbox_inches='tight')
+    plt.close()
+
+    return plot_path
