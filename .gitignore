@@ -1,0 +1,11 @@
+# Ignore data files
+*.csv
+*.pyc
+*.pkl
+
+# Ignore cache and bytecode
+__pycache__/
+*.log
+
+# Ignore image/chart exports
+static/chart.png
