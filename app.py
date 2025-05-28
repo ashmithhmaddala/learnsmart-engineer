@@ -21,17 +21,20 @@ def recommend():
     if file.filename == '':
         return "No file selected", 400
 
-    df = pd.read_csv(file)
+    try:
+        df = pd.read_csv(file)
 
-    # Generate recommendations and chart path
-    recommendations = generate_recommendations(df)
-    chart_path = create_skill_plot(df)  # This should return something like 'images/chart.png'
+        # Generate recommendations and chart path
+        recommendations = generate_recommendations(df)
+        chart_path = create_skill_plot(df)  # e.g., returns 'plots/chart_xyz.png'
 
-    return render_template(
-        'results.html',
-        recs=recommendations,
-        chart=url_for('static', filename=chart_path)
-    )
+        return render_template(
+            'results.html',
+            recs=recommendations,
+            chart=url_for('static', filename=chart_path)
+        )
+    except Exception as e:
+        return f"Error processing file: {e}", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
