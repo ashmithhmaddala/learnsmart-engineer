@@ -2,65 +2,136 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>AI Recommendations</title>
+    <title>LearnSmart Results</title>
     <style>
       body {
+        margin: 0;
         font-family: system-ui, sans-serif;
         background: #f4f5f7;
-        padding: 2em;
+        color: #131313;
         text-align: center;
       }
+      h1 {
+        margin-top: 2em;
+        font-size: 2.5em;
+        font-weight: 500;
+        color: #2d336b;
+      }
       .rec-box {
-        background: white;
-        border-radius: 10px;
+        background: #ffffff;
+        border-radius: 1em;
         padding: 2em;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        margin: 2em auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin: 4em auto;
         max-width: 700px;
+        text-align: left;
       }
       .rec-box h2 {
         color: #2d336b;
+        margin-bottom: 0.5em;
+        font-size: 1.75em;
       }
       ul {
-        list-style-type: disc;
-        text-align: left;
-        padding-left: 2em;
-        line-height: 1.6em;
+        list-style: disc;
+        padding-left: 1.5em;
+        line-height: 1.6;
+        margin-bottom: 2em;
       }
       li {
-        margin-bottom: 0.5em;
+        margin-bottom: 0.75em;
       }
       img {
+        display: block;
+        margin: 1.5em auto 0;
         max-width: 100%;
-        margin-top: 2em;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 0.75em;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       }
       a {
-        display: inline-block;
-        margin-top: 2em;
-        color: #2d336b;
-        font-weight: bold;
         text-decoration: none;
       }
-      a:hover {
-        text-decoration: underline;
+      .btn-animate-chars {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75em 1.5em;
+        font-size: 1em;
+        color: #131313;
+        background: #efeeec;
+        border: none;
+        border-radius: 0.25em;
+        cursor: pointer;
+        overflow: hidden;
+        margin-top: 2em;
+        transition: background 0.3s;
+      }
+      .btn-animate-chars__bg {
+        position: absolute;
+        inset: 0;
+        background: #efeeec;
+        border-radius: 0.25em;
+        transition: inset 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+        z-index: 0;
+      }
+      .btn-animate-chars__text {
+        position: relative;
+        z-index: 1;
+      }
+      .btn-animate-chars:hover .btn-animate-chars__bg {
+        inset: 0.125em;
+      }
+      .btn-animate-chars [data-button-animate-chars] span {
+        display: inline-block;
+        transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+      }
+      .btn-animate-chars:hover [data-button-animate-chars] span {
+        transform: translateY(-1.3em);
       }
     </style>
   </head>
   <body>
     <h1>AI-Powered Learning Suggestions</h1>
+
     <div class="rec-box">
-      <h2>Recommendations:</h2>
+      <h2>Recommendations</h2>
       <ul>
         {% for rec in recs %}
         <li>{{ rec }}</li>
         {% endfor %}
       </ul>
 
-      <h2>Skill Visualization:</h2>
+      <h2>Skill Visualization</h2>
       <img src="{{ chart }}" alt="Skill Chart" />
     </div>
-    <a href="/">← Back to Home</a>
+
+    <a href="/">
+      <button class="btn-animate-chars">
+        <div class="btn-animate-chars__bg"></div>
+        <span data-button-animate-chars class="btn-animate-chars__text">
+          ← Back to Home
+        </span>
+      </button>
+    </a>
+
+    <script>
+      function initButtonCharacterStagger() {
+        const inc = 0.02;
+        document
+          .querySelectorAll(".btn-animate-chars [data-button-animate-chars]")
+          .forEach((el) => {
+            const txt = el.textContent.trim();
+            el.innerHTML = "";
+            [...txt].forEach((ch, i) => {
+              const sp = document.createElement("span");
+              sp.textContent = ch;
+              sp.style.transitionDelay = `${i * inc}s`;
+              if (ch === " ") sp.style.whiteSpace = "pre";
+              el.appendChild(sp);
+            });
+          });
+      }
+      document.addEventListener("DOMContentLoaded", initButtonCharacterStagger);
+    </script>
   </body>
 </html>

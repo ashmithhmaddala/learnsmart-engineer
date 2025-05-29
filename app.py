@@ -2,39 +2,29 @@ from flask import Flask, request, render_template, url_for
 import pandas as pd
 from recommender import generate_recommendations
 from visualize import create_skill_plot
-import os
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# Home route
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Recommendation route
 @app.route('/recommend', methods=['POST'])
 def recommend():
-    if 'file' not in request.files:
+    file = request.files.get('file')
+    if not file or file.filename == '':
         return "No file uploaded", 400
 
-    file = request.files['file']
-    if file.filename == '':
-        return "No file selected", 400
+    df = pd.read_csv(file)
+    recs = generate_recommendations(df)
+    chart_filename = create_skill_plot(df)
+    chart_url = url_for('static', filename=chart_filename)
 
-    try:
-        df = pd.read_csv(file)
-
-        # Generate recommendations and chart path
-        recommendations = generate_recommendations(df)
-        chart_path = create_skill_plot(df)  # e.g., returns 'plots/chart_xyz.png'
-
-        return render_template(
-            'results.html',
-            recs=recommendations,
-            chart=url_for('static', filename=chart_path)
-        )
-    except Exception as e:
-        return f"Error processing file: {e}", 500
+    return render_template(
+        'results.html',
+        recs=recs,
+        chart=chart_url
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,26 +1,14 @@
-def generate_recommendations(df):
-    # Calculate average scores for each subject
-    df['average'] = df[['math score', 'reading score', 'writing score']].mean(axis=1)
+import pandas as pd
 
-    # Identify weakest subject per student
-    def find_weakest(row):
-        scores = {
-            'Math': row['math score'],
-            'Reading': row['reading score'],
-            'Writing': row['writing score']
-        }
-        weakest = min(scores, key=scores.get)
-        return weakest
-
-    df['weakest_subject'] = df.apply(find_weakest, axis=1)
-
-    # Count how often each subject is the weakest (insight)
-    recommendation_summary = df['weakest_subject'].value_counts().to_dict()
-
-    # Return as a friendly list of recommendations
-    recommendations = [
-        f"Focus on improving {subject} — identified as the weakest in {count} students"
-        for subject, count in recommendation_summary.items()
+def generate_recommendations(df: pd.DataFrame, score_cols: list[str] | None = None) -> list[str]:
+    if score_cols is None:
+        score_cols = df.select_dtypes(include="number").columns.tolist()
+    if not score_cols:
+        raise ValueError("No numeric columns found.")
+    df["__weakest__"] = df[score_cols].idxmin(axis=1)
+    counts = df["__weakest__"].value_counts().to_dict()
+    df.drop(columns="__weakest__", inplace=True)
+    return [
+        f"Focus on improving **{col}** — weakest in {cnt} records"
+        for col, cnt in counts.items()
     ]
-
-    return recommendations

@@ -12,7 +12,21 @@
         font-family: system-ui, sans-serif;
         background: #f4f5f7;
       }
-
+      section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .section-resource.is--flipped {
+        background-color: #7886c7;
+        color: #fff;
+      }
+      .section-resource__h2 {
+        font-size: 5em;
+        font-weight: 500;
+        margin: 0;
+      }
       .progress-nav {
         width: 100%;
         padding: 2em;
@@ -21,7 +35,6 @@
         left: 0;
         z-index: 100;
       }
-
       .progress-nav__inner {
         display: flex;
         justify-content: space-between;
@@ -29,29 +42,17 @@
         gap: 1em;
         padding: 0 1.5em;
       }
-
-      .progress-nav__logo {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        min-width: 250px;
-      }
-
       .progress-nav__logo img {
         height: 150px;
-        max-height: 220px;
-        width: auto;
         object-fit: contain;
         padding-right: 0.75em;
       }
-
       .progress-nav__wrapper {
         background-color: #c9cce0;
         border-radius: 50em;
         padding: 0.5em;
         display: flex;
       }
-
       .progress-nav__list {
         display: flex;
         align-items: center;
@@ -59,7 +60,6 @@
         overflow: hidden;
         border-radius: 50em;
       }
-
       .progress-nav__indicator {
         position: absolute;
         background-color: #fff;
@@ -70,7 +70,6 @@
         transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 2;
       }
-
       .progress-nav__btn {
         z-index: 3;
         cursor: pointer;
@@ -83,23 +82,20 @@
         position: relative;
         overflow: hidden;
       }
-
-      .progress-nav__btn.is--before,
+      .progress-nav__btn.is--before {
+        width: 2.5em;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        right: 100%;
+      }
       .progress-nav__btn.is--after {
         width: 2.5em;
         padding: 0;
         position: absolute;
         top: 0;
-      }
-
-      .progress-nav__btn.is--before {
-        right: 100%;
-      }
-
-      .progress-nav__btn.is--after {
         left: 100%;
       }
-
       .progress-nav__btn-text {
         font-size: 1.125em;
         font-weight: 500;
@@ -107,67 +103,31 @@
         align-items: center;
         justify-content: center;
         transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        transform: translateY(0);
-        height: 100%;
-        white-space: nowrap;
       }
-
       .progress-nav__btn-text.is--duplicate {
         position: absolute;
         top: 100%;
       }
-
       .progress-nav__btn:hover .progress-nav__btn-text,
       .progress-nav__contact-btn:hover .progress-nav__btn-text {
         transform: translateY(-100%);
       }
-
       .progress-nav__contact-btn {
         background-color: #2d336b;
         color: transparent;
         border-radius: 50em;
         height: 3.5em;
         width: 3.5em;
-        padding: 0;
-        overflow: hidden;
-        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         transition: width 0.4s ease, color 0.3s ease;
       }
-
       .progress-nav__contact-btn:hover {
         width: 12em;
         color: #fff;
       }
-
-      .progress-nav__contact-btn .progress-nav__btn-text {
-        opacity: 0;
-        transition: opacity 0.4s ease, transform 0.4s ease;
-      }
-
-      .progress-nav__contact-btn:hover .progress-nav__btn-text {
-        opacity: 1;
-      }
-
-      .section-resource {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .section-resource.is--flipped {
-        background-color: #7886c7;
-        color: #fff;
-      }
-
-      .section-resource__h2 {
-        font-size: 5em;
-        font-weight: 500;
-      }
-
       .loading-container {
         z-index: 500;
         pointer-events: none;
@@ -175,46 +135,83 @@
         inset: 0;
         overflow: hidden;
       }
-
       .loading-screen {
         pointer-events: auto;
         color: #fff;
         background-color: #000;
-        justify-content: center;
+        display: flex;
         align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
-        display: flex;
-        position: absolute;
-        top: 0;
-        left: 0;
       }
-
       .loading-words {
-        grid-column-gap: 2em;
-        grid-row-gap: 2em;
-        align-items: center;
         display: flex;
+        gap: 2em;
       }
-
       .loading-words__dot {
         background-color: #fff;
         border-radius: 50%;
         width: 0.75em;
         height: 0.75em;
       }
-
       .loading-words__word {
         font-size: 4.5em;
         font-weight: 500;
         line-height: 1;
         margin: 0;
       }
-
-      @media screen and (max-width: 767px) {
+      @media (max-width: 767px) {
         .loading-words {
           font-size: 2.75vw;
         }
+      }
+      .btn-animate-chars {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 0.75em 1.5em;
+        font-size: 1em;
+        border: none;
+        border-radius: 0.25em;
+        background: #efeeec;
+        cursor: pointer;
+        color: #131313;
+        margin-top: 1em;
+      }
+      .btn-animate-chars__bg {
+        position: absolute;
+        inset: 0;
+        background: #efeeec;
+        border-radius: 0.25em;
+        transition: inset 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+        z-index: 0;
+      }
+      .btn-animate-chars__text {
+        position: relative;
+        z-index: 1;
+        white-space: nowrap;
+        line-height: 1.3;
+      }
+      .btn-animate-chars [data-button-animate-chars] {
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+      }
+      .btn-animate-chars [data-button-animate-chars] span {
+        display: inline-block;
+        position: relative;
+        text-shadow: 0px 1.3em currentColor;
+        transform: translateY(0) rotate(0.001deg);
+        transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+      }
+      .btn-animate-chars:hover [data-button-animate-chars] span {
+        transform: translateY(-1.3em);
+      }
+      .btn-animate-chars:hover .btn-animate-chars__bg {
+        inset: 0.125em;
       }
     </style>
   </head>
@@ -230,7 +227,6 @@
         </div>
       </div>
     </div>
-
     <nav class="progress-nav">
       <div class="progress-nav__inner">
         <a href="/" class="progress-nav__logo">
@@ -239,7 +235,6 @@
             alt="LearnSmart Logo"
           />
         </a>
-
         <div class="progress-nav__wrapper">
           <div data-progress-nav-list class="progress-nav__list">
             <div class="progress-nav__indicator"></div>
@@ -291,14 +286,12 @@
             ></div>
           </div>
         </div>
-
         <a href="#bottom" class="progress-nav__contact-btn">
           <span class="progress-nav__btn-text">Get in touch</span>
           <span class="progress-nav__btn-text is--duplicate">Get in touch</span>
         </a>
       </div>
     </nav>
-
     <section id="top" data-progress-nav-anchor class="section-resource">
       <h2 class="section-resource__h2">Welcome to LearnSmart</h2>
     </section>
@@ -309,15 +302,11 @@
     >
       <div style="max-width: 800px; padding: 2em; text-align: center">
         <h2 class="section-resource__h2">Introduction</h2>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
+        <p style="font-size: 1.25em; line-height: 1.6">
           Welcome to <strong>LearnSmart Engineer</strong> – where data meets
-          education. Our platform harnesses the power of artificial intelligence
-          to understand your learning behavior and academic strengths. It
-          doesn't just recommend topics — it helps shape your journey to success
-          with tailored insights.
+          education. Our platform harnesses the power of AI to understand your
+          learning behavior and academic strengths, shaping your journey to
+          success with tailored insights.
         </p>
         <img
           src="{{ url_for('static', filename='images/7451cf22-10f9-436f-8942-42b006b55639.png') }}"
@@ -329,45 +318,19 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           "
         />
-        <p
-          class="section-resource__p"
-          style="margin-top: 2em; font-size: 1.25em; line-height: 1.6"
-        >
-          LearnSmart Engineer is an AI-powered educational platform designed to
-          personalize the learning journey of students. It analyzes academic
-          performance, identifies strengths and weaknesses, and provides smart
-          recommendations to help learners bridge knowledge gaps, explore
-          relevant certifications, and aim for career goals with confidence.
-        </p>
       </div>
     </section>
-
     <section id="concept" data-progress-nav-anchor class="section-resource">
       <div style="max-width: 800px; padding: 2em; text-align: center">
         <h2 class="section-resource__h2">Concept</h2>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
+        <p style="font-size: 1.25em; line-height: 1.6">
           The core concept behind <strong>LearnSmart Engineer</strong> is to
           empower students by transforming traditional performance data into
-          meaningful learning pathways. By leveraging academic datasets, we
-          apply machine learning techniques to analyze subject-wise performance
-          and recommend targeted areas for improvement.
-        </p>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6; margin-top: 1.5em"
-        >
-          Our platform goes beyond static progress reports — it predicts future
-          weaknesses, aligns users with suitable certifications, and guides them
-          toward relevant industry skills. Through an intuitive interface and
-          real-time visualizations, students receive actionable insights to
-          personalize and accelerate their growth.
+          meaningful learning pathways. We apply ML techniques to analyze
+          subject‐wise performance and recommend targeted areas for improvement.
         </p>
       </div>
     </section>
-
     <section
       id="product"
       data-progress-nav-anchor
@@ -375,7 +338,7 @@
     >
       <div style="max-width: 800px; padding: 2em; text-align: center">
         <h2 class="section-resource__h2">Upload Your Data</h2>
-        <p class="section-resource__p" style="font-size: 1.2em">
+        <p style="font-size: 1.2em">
           Upload a CSV file of your academic performance. Our AI will analyze it
           and generate smart suggestions for your learning journey.
         </p>
@@ -383,66 +346,49 @@
           action="/recommend"
           method="POST"
           enctype="multipart/form-data"
-          style="margin-top: 2em"
+          style="position: relative; margin-top: 2em"
         >
-          <input
-            type="file"
-            name="file"
-            accept=".csv"
-            required
-            style="padding: 0.5em; font-size: 1em"
-          />
+          <label class="btn-animate-chars">
+            <div class="btn-animate-chars__bg"></div>
+            <span data-button-animate-chars class="btn-animate-chars__text"
+              >Browse CSV</span
+            >
+            <input
+              type="file"
+              name="file"
+              accept=".csv"
+              required
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+              "
+            />
+          </label>
           <br /><br />
-          <button
-            type="submit"
-            style="
-              padding: 0.7em 2em;
-              background-color: #fff;
-              color: #2d336b;
-              border-radius: 30px;
-              font-weight: bold;
-              font-size: 1em;
-            "
-          >
-            Get My Suggestions
+          <button type="submit" class="btn-animate-chars">
+            <div class="btn-animate-chars__bg"></div>
+            <span data-button-animate-chars class="btn-animate-chars__text"
+              >Get My Suggestions</span
+            >
           </button>
         </form>
       </div>
     </section>
-
     <section id="result" data-progress-nav-anchor class="section-resource">
       <div style="max-width: 800px; padding: 2em; text-align: center">
         <h2 class="section-resource__h2">Result</h2>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
-          Once the user uploads their academic performance CSV, LearnSmart's AI
-          engine analyzes each student’s performance across subjects like Math,
-          Reading, and Writing. The system calculates average scores and
-          identifies each student's weakest area.
-        </p>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
-          Based on this data, the recommender module generates targeted advice —
-          for instance, if a majority of students struggle with Writing, it
-          recommends focusing on writing improvement strategies. Simultaneously,
-          a skill visualization graph is generated to provide a quick
-          performance overview.
-        </p>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
-          This insight is visualized with interactive charts and clear
-          suggestions, enabling educators and learners to make data-backed
-          decisions to enhance educational outcomes.
+        <p style="font-size: 1.25em; line-height: 1.6">
+          Once you upload your CSV, our AI engine analyzes each student’s
+          performance across Math, Reading, and Writing, calculates averages,
+          identifies weaknesses, and generates targeted advice.
         </p>
       </div>
     </section>
-
     <section
       id="bottom"
       data-progress-nav-anchor
@@ -450,128 +396,96 @@
     >
       <div style="max-width: 800px; padding: 2em; text-align: center">
         <h2 class="section-resource__h2">Final Thoughts</h2>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6"
-        >
-          <strong>LearnSmart Engineer</strong> is more than just a project —
-          it’s a vision to make learning smarter, more adaptive, and deeply
-          personal. By blending the power of AI and data visualization, this
-          platform demonstrates how students can be guided with clarity and
-          precision.
+        <p style="font-size: 1.25em; line-height: 1.6">
+          <strong>LearnSmart Engineer</strong> is a vision for personalized,
+          adaptive learning—blending AI and data visualization to guide students
+          with clarity and precision.
         </p>
-        <p
-          class="section-resource__p"
-          style="font-size: 1.25em; line-height: 1.6; margin-top: 1.5em"
-        >
-          Thank you for taking the time to explore LearnSmart. Whether you're a
-          recruiter, educator, or learner — I hope this walkthrough gives you a
-          glimpse into the future of personalized education.
-        </p>
-        <p
-          class="section-resource__p"
-          style="margin-top: 2em; font-style: italic; font-size: 1.1em"
-        >
+        <p style="margin-top: 2em; font-style: italic; font-size: 1.1em">
           “Because when learning becomes personal, progress becomes powerful.”
         </p>
       </div>
     </section>
-
     <script>
       gsap.registerPlugin(ScrollTrigger);
-
       function initProgressNavigation() {
-        const navProgress = document.querySelector("[data-progress-nav-list]");
-        const indicator = navProgress.querySelector(".progress-nav__indicator");
-
-        function updateIndicator(activeLink) {
-          const parentRect = navProgress.getBoundingClientRect();
-          const linkRect = activeLink.getBoundingClientRect();
-          const left = linkRect.left - parentRect.left;
-          indicator.style.left = `${left}px`;
-          indicator.style.width = `${linkRect.width}px`;
+        const nav = document.querySelector("[data-progress-nav-list]");
+        const indicator = nav.querySelector(".progress-nav__indicator");
+        function update(ind) {
+          const pr = nav.getBoundingClientRect();
+          const lr = ind.getBoundingClientRect();
+          indicator.style.left = `${lr.left - pr.left}px`;
+          indicator.style.width = `${lr.width}px`;
         }
-
-        const anchors = gsap.utils.toArray("[data-progress-nav-anchor]");
-        anchors.forEach((anchor) => {
-          const id = anchor.id;
+        gsap.utils.toArray("[data-progress-nav-anchor]").forEach((anchor) => {
           ScrollTrigger.create({
             trigger: anchor,
             start: "0% 50%",
             end: "100% 50%",
-            onEnter: () => {
-              const active = navProgress.querySelector(
-                `[data-progress-nav-target="#${id}"]`
+            onEnter: (self) => {
+              const act = nav.querySelector(
+                `[data-progress-nav-target="#${anchor.id}"]`
               );
-              if (active) {
-                navProgress
-                  .querySelectorAll("[data-progress-nav-target]")
-                  .forEach((btn) => btn.classList.remove("is--active"));
-                active.classList.add("is--active");
-                updateIndicator(active);
-              }
+              nav
+                .querySelectorAll("[data-progress-nav-target]")
+                .forEach((b) => b.classList.remove("is--active"));
+              act.classList.add("is--active");
+              update(act);
             },
             onEnterBack: (self) => self.trigger.onEnter(),
           });
         });
       }
-
       function initWelcomingWordsLoader() {
-        const loadingContainer = document.querySelector(
-          "[data-loading-container]"
-        );
-        if (!loadingContainer) return;
-
-        const loadingWords = loadingContainer.querySelector(
-          "[data-loading-words]"
-        );
-        const wordsTarget = loadingWords.querySelector(
-          "[data-loading-words-target]"
-        );
-        const words = loadingWords
+        const container = document.querySelector("[data-loading-container]");
+        if (!container) return;
+        const wordsEl = container.querySelector("[data-loading-words]");
+        const target = wordsEl.querySelector("[data-loading-words-target]");
+        const words = wordsEl
           .getAttribute("data-loading-words")
           .split(",")
           .map((w) => w.trim());
-
         const tl = gsap.timeline();
-        tl.from(loadingWords, {
+        tl.from(wordsEl, {
           opacity: 0,
           yPercent: 50,
           duration: 1.2,
           ease: "Expo.easeInOut",
         });
-
-        words.forEach((word) => {
-          tl.call(
-            () => {
-              wordsTarget.textContent = word;
-            },
-            null,
-            "+=0.15"
-          );
-        });
-
-        tl.to(loadingWords, {
+        words.forEach((w) =>
+          tl.call(() => (target.textContent = w), null, "+=0.15")
+        );
+        tl.to(wordsEl, {
           opacity: 0,
           yPercent: -75,
           duration: 0.8,
           ease: "Expo.easeIn",
-        });
-
-        tl.to(
-          loadingContainer,
-          {
-            autoAlpha: 0,
-            duration: 0.6,
-            ease: "Power1.easeInOut",
-          },
+        }).to(
+          container,
+          { autoAlpha: 0, duration: 0.6, ease: "Power1.easeInOut" },
           "-=0.2"
         );
       }
-
+      function initButtonCharacterStagger() {
+        const inc = 0.02;
+        document
+          .querySelectorAll(".btn-animate-chars [data-button-animate-chars]")
+          .forEach((el) => {
+            const txt = el.textContent.trim();
+            el.innerHTML = "";
+            [...txt].forEach((ch, i) => {
+              const sp = document.createElement("span");
+              sp.textContent = ch;
+              sp.style.transitionDelay = `${i * inc}s`;
+              if (ch === " ") sp.style.whiteSpace = "pre";
+              el.appendChild(sp);
+            });
+          });
+      }
       document.addEventListener("DOMContentLoaded", () => {
         initWelcomingWordsLoader();
         initProgressNavigation();
+        initButtonCharacterStagger();
       });
     </script>
   </body>
